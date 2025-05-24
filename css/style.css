@@ -141,22 +141,29 @@ nav {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    align-items: center;
+    align-items: start;
 }
 
 .about-text p {
     margin-bottom: 1.5rem;
 }
 
-.image-placeholder {
-    background-color: #ddd;
-    height: 400px;
+.about-image {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--light-bg);
     border-radius: 10px;
-    font-size: 1.2rem;
-    color: #666;
+    overflow: hidden;
+    height: auto;
+}
+
+.profile-photo {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 /* Contact Section */
