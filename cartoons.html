@@ -7,30 +7,108 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .under-development {
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+        .cartoon-gallery {
             padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .under-development i {
-            font-size: 4rem;
-            color: #3498db;
-            margin-bottom: 1.5rem;
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
         }
-        .under-development h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+
+        .cartoon-item {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .cartoon-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .cartoon-item picture {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .cartoon-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .cartoon-info {
+            padding: 1rem;
+        }
+
+        .cartoon-info h3 {
+            margin: 0 0 0.5rem 0;
             color: #2c3e50;
         }
-        .under-development p {
-            font-size: 1.2rem;
+
+        .cartoon-info p {
+            margin: 0;
             color: #666;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        /* Lightbox styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            margin: auto;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 10px;
+        }
+
+        .cartoon-item {
+            cursor: pointer;
         }
     </style>
 </head>
@@ -55,11 +133,52 @@
     </header>
 
     <main>
-        <section class="under-development">
-            <i class="fas fa-paint-brush"></i>
-            <h1>Under Development</h1>
-            <p>Our cartoon gallery is coming soon! We're working hard to bring you creative and engaging cartoons.</p>
+        <section class="cartoon-gallery">
+            <h1>Cartoon Gallery</h1>
+            <div class="gallery-grid">
+                <!-- Women's Day Cartoon -->
+                <article class="cartoon-item" onclick="openLightbox('cartoons/womens-day.jpg', 'Women\'s Day Cartoon')">
+                    <picture>
+                        <img src="cartoons/womens-day.jpg" 
+                             alt="Women's Day Cartoon" 
+                             loading="lazy">
+                    </picture>
+                </article>
+
+                <!-- Heatwave Cartoon -->
+                <article class="cartoon-item" onclick="openLightbox('cartoons/heatwave.jpg', 'Heatwave Cartoon')">
+                    <picture>
+                        <img src="cartoons/heatwave.jpg" 
+                             alt="Heatwave Cartoon"
+                             loading="lazy">
+                    </picture>
+                </article>
+
+                <!-- Spellcheck Cartoon -->
+                <article class="cartoon-item" onclick="openLightbox('cartoons/spellcheck.jpg', 'Spellcheck Cartoon')">
+                    <picture>
+                        <img src="cartoons/spellcheck.jpg" 
+                             alt="Spellcheck Cartoon"
+                             loading="lazy">
+                    </picture>
+                </article>
+
+                <!-- Headwave Original Cartoon -->
+                <article class="cartoon-item" onclick="openLightbox('cartoons/headwave-o.jpg', 'Headwave Original Cartoon')">
+                    <picture>
+                        <img src="cartoons/headwave-o.jpg" 
+                             alt="Headwave Original Cartoon"
+                             loading="lazy">
+                    </picture>
+                </article>
+            </div>
         </section>
+
+        <!-- Lightbox container -->
+        <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-img" src="" alt="">
+        </div>
     </main>
 
     <footer>
@@ -69,5 +188,38 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script>
+        function openLightbox(imgSrc, imgAlt) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightboxImg.src = imgSrc;
+            lightboxImg.alt = imgAlt;
+            lightbox.classList.add('active');
+            
+            // Prevent scrolling when lightbox is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            
+            // Re-enable scrolling
+            document.body.style.overflow = '';
+        }
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Prevent lightbox from closing when clicking the image
+        document.getElementById('lightbox-img').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    </script>
 </body>
 </html> 
